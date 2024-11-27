@@ -36,25 +36,27 @@ void setup() {
 void loop() {
   float temp = sht31.getTemperature();
   float hum = sht31.getHumidity();
-  Serial.print("Temp = "); 
-  Serial.print(temp);
-  Serial.println(" C"); //The unit for  Celsius because original arduino don't support speical symbols
-  Serial.print("Hum = "); 
-  Serial.print(hum);
-  Serial.println("%"); 
-  Serial.println();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp = "); 
+  lcd.print(temp);
+  lcd.print(" C"); //The unit for  Celsius because original arduino don't support speical symbols
+  lcd.setCursor(0, 1);
+  lcd.print("Hum = "); 
+  lcd.print(hum);
+  lcd.print("%"); 
 
   int sensorValue = analogRead(0); 
-  Rsensor=(float)(1023-sensorValue)*10/sensorValue;
+  Rsensor=(float)(1024-sensorValue)*10/sensorValue;
 
-  float lux=exp(float(sensorValue)/100.0);
+  float lux=exp(float(sensorValue)/75.0);
   //float lux=log(Rsensor);
   Serial.println("the analog read data is ");
   Serial.println(lux);
   Serial.println("the sensor resistance is ");
   Serial.println(Rsensor,DEC);//show the light intensity on the serial monitor;
   delay(1000);
-  if (Serial.available()) {
+  /*if (Serial.available()) {
         // wait a bit for the entire message to arrive
         delay(100);
         // clear the screen
@@ -64,6 +66,6 @@ void loop() {
             // display each character to the LCD
             lcd.write(Serial.read());
         }
-    }
+    }*/
 
 }
