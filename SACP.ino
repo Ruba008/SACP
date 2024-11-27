@@ -44,6 +44,7 @@ void loop() {
   lcd.setCursor(0, 1);
   lcd.print("Hum = "); 
   lcd.print(hum);
+  3
   lcd.print("%"); 
 
   int sensorValue = analogRead(0); 
