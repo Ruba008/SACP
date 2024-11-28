@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string>
 #include "rgb_lcd.h"
+#include "Application.h"
 
 using namespace std;
 
@@ -58,7 +59,7 @@ class Luminosity {
     lum=exp(float(aread)/75.0);
   }
 
-  float getLum(){
+  float readLum(){
     return lum;
   }
 
