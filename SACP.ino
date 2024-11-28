@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string>
 #include "rgb_lcd.h"
+#include "Application.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ const int ledPin=6;                 //Connect the LED Grove module to Pin12, Dig
 const int thresholdvalue=10;         //The threshold for which the LED should turn on. 
 float Rsensor; //Resistance of sensor in K
 
-class TempHum {
+/*class TempHum {
   float temp;
   float hum;
 
@@ -103,7 +104,7 @@ class Lcd{
     lcd.print(error);  
   }
 
-};
+};*/
 
 
 void setup() {
