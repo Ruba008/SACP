@@ -12,101 +12,52 @@ rgb_lcd lcd;
 
 SHT31 sht31 = SHT31();
 
-class TempHum {
-  float temp;
-  float hum;
-
-  public:
-
-  TempHum(){}
-
-  void Initialize(){
+TempHum::Initialize(){
     sht31.begin();
     temp=sht31.getTemperature();
     hum=sht31.getHumidity();
-  }
+}
 
-  float readTemp(){
+TempHum::readTemp(){
     return temp;
-  }
+}
 
-  float readHum(){
+TempHum::readHum(){
     return hum;
-  }
+}
 
-  void Update(){
+TempHum::Update(){
     temp=sht31.getTemperature();
     hum=sht31.getHumidity();
-  }
+}
 
 
-
-};
-
-void TempHum::Initialize(){
-    sht31.begin();
-    temp=sht31.getTemperature();
-    hum=sht31.getHumidity();
-  }
-
-float TempHum::readTemp(){
-    return temp;
-  }
-
-float TempHum::readHum(){
-    return hum;
-  }
-class Luminosity {
-
-  float lum;
-  float Rsensor;
-  int aread;
-
-  public:
-
-  Luminosity(){}
-
-  void Initialize(){
+Luminosity::Initialize(){
     aread = analogRead(0); 
     Rsensor=(float)(1024-aread)*10/aread;
     lum=exp(float(aread)/75.0);
-  }
+}
 
-  float readLum(){
+Luminosity::readLum(){
     return lum;
-  }
+}
 
-  void Update(){
+Luminosity::Update(){
     aread = analogRead(0); 
     Rsensor=(float)(1024-aread)*10/aread;
     lum=exp(float(aread)/75.0);
-  }
-};
+}
 
-class Lcd{
-  bool isOn=0;
-  int colorR = 255;
-  int colorG = 0;
-  int colorB = 0;
-  string data;
-  string error;
-
-  public:
-
-  Lcd();
-
-  void Initialize(){
+Lcd::Initialize(){
     isOn=1;
     lcd.begin(16, 2);
     lcd.setRGB(colorR, colorG, colorB);
-  }
+}
 
-  void Update(){
+Lcd::Update(){
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(data);  
     lcd.setCursor(0, 1);
     lcd.print(error);  
   }
-
-};
