@@ -76,7 +76,12 @@ class Lcd{
   public:
     bool writeData(bool isOn);
   private:
-    bool isOn;
+    bool isOn=0;
+    int colorR = 255;
+    int colorG = 0;
+    int colorB = 0;
+    string data;
+    string error;
 };
 class Button{
   public:
