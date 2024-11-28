@@ -43,6 +43,19 @@ class TempHum {
 
 };
 
+void TempHum::Initialize(){
+    sht31.begin();
+    temp=sht31.getTemperature();
+    hum=sht31.getHumidity();
+  }
+
+float TempHum::readTemp(){
+    return temp;
+  }
+
+float TempHum::readHum(){
+    return hum;
+  }
 class Luminosity {
 
   float lum;
