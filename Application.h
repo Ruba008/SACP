@@ -87,6 +87,7 @@ class Buzzer{
   public:
     void Initialize();
     void ToggleBuz();
+    void BuzOff();
   private:
     bool isOn;
     int PinBuzzer;
@@ -111,6 +112,11 @@ class Button{
   private:
     bool isOn;
 };
+
+void Buzzer::BuzOff(){
+  digitalWrite(PinBuzzer,LOW);
+  isOn=0;
+}
 
 //Controller
 class Controller{

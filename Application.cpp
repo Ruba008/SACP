@@ -69,6 +69,7 @@ void Buzzer::Initialize(){
   pinMode(PinBuzzer,OUTPUT);
 }
 
+
 void Buzzer::ToggleBuz(){
     if (isOn==0){
       digitalWrite(PinBuzzer,HIGH);
@@ -78,6 +79,11 @@ void Buzzer::ToggleBuz(){
       digitalWrite(PinBuzzer,LOW);
       isOn=0;
     }
+}
+
+void Buzzer::BuzOff(){
+  digitalWrite(PinBuzzer,LOW);
+  isOn=0;
 }
 
 array<float, 4> Plant::zoneJauneHum(array<float, 2> req, float zone) {

@@ -8,6 +8,7 @@ using namespace std;
 
 Buzzer buz;
 TempHum TempH;
+Luminosity Lum;
 
 void setup() {
   Serial.begin(115200);
@@ -16,6 +17,7 @@ void setup() {
 
   TempH.Initialize(); 
   buz.Initialize();
+  Lum.Initialize();
 
   delay(1000);
 }
@@ -28,6 +30,9 @@ void loop() {
   Serial.print("Hum = "); 
   Serial.print(TempH.readHum());
   Serial.println("%"); 
+
+  Serial.print("Lum = "); 
+  Serial.println(Lum.readLum());
 
   buz.ToggleBuz();
   TempH.Update();
