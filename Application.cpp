@@ -10,9 +10,10 @@ using namespace std;
 
 rgb_lcd lcd;
 
-SHT31 sht31 = SHT31();
+//SHT31 sht31 = SHT31();
 
 void TempHum::Initialize(){
+    sht31 = SHT31();
     sht31.begin();
     temp=sht31.getTemperature();
     hum=sht31.getHumidity();
@@ -69,11 +70,13 @@ void Buzzer::Initialize(){
 }
 
 void Buzzer::ToggleBuz(){
-    if (isOn){
+    if (isOn==0){
       digitalWrite(PinBuzzer,HIGH);
+      isOn=1;
     }
     else{
       digitalWrite(PinBuzzer,LOW);
+      isOn=0;
     }
 }
 
