@@ -41,8 +41,6 @@ class Plant: protected plantBase{
     array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneHum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override; 
-    array<float, 4> zoneJauneHum(array<float, 2> req, float zone) override;
-    array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override; 
   private:
     string specie;
     string color;
@@ -59,10 +57,8 @@ class Plant: protected plantBase{
 class TempHum {
   public:
     void Initialize(); 
-    void Initialize(); 
     float readTemp();
     float readHum();
-    void Update();
     void Update();
   private:
     float hum;
@@ -74,13 +70,8 @@ class Luminosity{
     void Initialize(); 
     float readLum();
     void Update();
-    void Initialize(); 
-    float readLum();
-    void Update();
   private:
     float lum;
-    float Rsensor;
-    int aread;
     float Rsensor;
     int aread;
 };
@@ -96,19 +87,14 @@ class Buzzer{
   public:
     void Initialize();
     void ToggleBuz();
-    void Initialize();
-    void ToggleBuz();
   private:
     bool isOn;
-    int PinBuzzer;
     int PinBuzzer;
 };
 class Lcd{
   public:
     void Initialize(); 
-    void Initialize(); 
     bool writeData(bool isOn);
-    void Update();
     void Update();
   private:
     bool isOn=0;
@@ -121,7 +107,6 @@ class Lcd{
 class Button{
   public:
     void Initialize(); 
-    void Initialize(); 
     void stopBuzzer();
   private:
     bool isOn;
@@ -133,7 +118,6 @@ class Controller{
     void initialize();
     float verifyValue(array<float, 2> req, float value);
     void verifyUrgence();
-    void Update();
     void Update();
   private:
     Led led;
