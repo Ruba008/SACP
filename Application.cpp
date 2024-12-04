@@ -61,3 +61,15 @@ void Lcd::Update(){
     lcd.setCursor(0, 1);
     lcd.print(error);  
   }
+
+  void Buzzer::Initialize(){
+    isOn=0;
+    PinBuzzer=3;
+    pinMode(PinBuzzer,OUTPUT);
+  }
+
+  void Buzzer::ToggleBuz(){
+      if (IsOn){
+        digitalWrite(PinBuzzer,HIGH);
+      }
+  }
