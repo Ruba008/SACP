@@ -7,6 +7,12 @@
 #define APPLICATION_H_
 #include <string>
 #include <array>
+#include <Arduino.h>
+#include <Wire.h>
+#include "SHT31.h"
+#include <math.h>
+#include <string>
+#include "rgb_lcd.h"
 
 using namespace std;
 /**
@@ -19,16 +25,16 @@ class plantBase{
     virtual array<float, 4> zoneJauneHum(array<float, 2> req, float zone) = 0;
     virtual array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) = 0;
   protected:
-    static const float zoneJauneHum = 0.2;
-    static const float zoneJauneLum = 0.2;
-    static const float zoneJauneTemp = 0.2;
+    const float JauneHum = 0.2;
+    const float JauneLum = 0.2;
+    const float JauneTemp = 0.2;
 };
 class Plant: protected plantBase{
   public :
     Plant();
     array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override;
-    array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override;
-    array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override; 
+    array<float, 4> zoneJauneHum(array<float, 2> req, float zone) override;
+    array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override; 
   private:
     string specie;
     string color;
@@ -44,19 +50,23 @@ class Plant: protected plantBase{
 // Capteurs
 class TempHum {
   public:
+    void Initialize(); 
     float readTemp();
     float readHum();
-    void update();
+    void Update();
   private:
     float hum;
     float temp;
 };
 class Luminosity{
   public:
-    float readlum();
-    void update();
+    void Initialize(); 
+    float readLum();
+    void Update();
   private:
     float lum;
+    float Rsensor;
+    int aread;
 };
 
 // Acteurs
@@ -69,14 +79,16 @@ class Led{
 class Buzzer{
   public:
     void Initialize();
-    void toggleBuz();
+    void ToggleBuz();
   private:
     bool isOn;
     int PinBuzzer;
 };
 class Lcd{
   public:
+    void Initialize(); 
     bool writeData(bool isOn);
+    void Update();
   private:
     bool isOn=0;
     int colorR = 255;
@@ -87,6 +99,7 @@ class Lcd{
 };
 class Button{
   public:
+    void Initialize(); 
     void stopBuzzer();
   private:
     bool isOn;
