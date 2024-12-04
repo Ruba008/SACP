@@ -9,7 +9,7 @@
 #include <array>
 #include <Arduino.h>
 #include <Wire.h>
-//#include "SHT31.h"
+#include "SHT31.h"
 #include <math.h>
 #include <string>
 //#include "rgb_lcd.h"
@@ -57,6 +57,7 @@ class TempHum {
   private:
     float hum;
     float temp;
+    SHT31 sht31;
 };
 class Luminosity{
   public:

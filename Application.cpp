@@ -10,9 +10,10 @@ using namespace std;
 
 rgb_lcd lcd;
 
-SHT31 sht31 = SHT31();
+//SHT31 sht31 = SHT31();
 
 void TempHum::Initialize(){
+    sht31 = SHT31();
     sht31.begin();
     temp=sht31.getTemperature();
     hum=sht31.getHumidity();
@@ -33,7 +34,7 @@ void TempHum::Update(){
 
 
 void Luminosity::Initialize(){
-    aread = analogRead(0); 
+    aread = analogRead(A0); 
     Rsensor=(float)(1024-aread)*10/aread;
     lum=exp(float(aread)/75.0);
 }
@@ -43,7 +44,7 @@ float Luminosity::readLum(){
 }
 
 void Luminosity::Update(){
-    aread = analogRead(0); 
+    aread = analogRead(A0); 
     Rsensor=(float)(1024-aread)*10/aread;
     lum=exp(float(aread)/75.0);
 }
@@ -64,15 +65,17 @@ void Lcd::Update(){
 
   void Buzzer::Initialize(){
     isOn=0;
-    PinBuzzer=3;
+    PinBuzzer=D8;
     pinMode(PinBuzzer,OUTPUT);
   }
 
   void Buzzer::ToggleBuz(){
-      if (isOn){
+      if (isOn==0){
         digitalWrite(PinBuzzer,HIGH);
+        isOn=1;
       }
       else{
         digitalWrite(PinBuzzer,LOW);
+        isOn=0;
       }
   }
