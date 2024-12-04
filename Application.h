@@ -113,11 +113,6 @@ class Button{
     bool isOn;
 };
 
-void Buzzer::BuzOff(){
-  digitalWrite(PinBuzzer,LOW);
-  isOn=0;
-}
-
 //Controller
 class Controller{
   public:
