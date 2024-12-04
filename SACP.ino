@@ -16,6 +16,8 @@ const int colorB = 0;
 
 SHT31 sht31 = SHT31();
 
+Buzzer a;
+
 const int ledPin=6;                 //Connect the LED Grove module to Pin12, Digital 12
 const int thresholdvalue=10;         //The threshold for which the LED should turn on. 
 float Rsensor; //Resistance of sensor in K
@@ -117,6 +119,7 @@ void setup() {
   lcd.begin(16, 2);
     
   lcd.setRGB(colorR, colorG, colorB);
+  a.Initialize();
     
   // Print a message to the LCD.
   //lcd.print("hello, world!");
@@ -141,12 +144,13 @@ void loop() {
   Rsensor=(float)(1024-sensorValue)*10/sensorValue;
 
   float lux=exp(float(sensorValue)/75.0);
+  a.ToggleBuz();
   //float lux=log(Rsensor);
   Serial.println("the analog read data is ");
   Serial.println(lux);
   Serial.println("the sensor resistance is ");
   Serial.println(Rsensor,DEC);//show the light intensity on the serial monitor;
-  delay(1000);
+  delay(5000);
   /*if (Serial.available()) {
         // wait a bit for the entire message to arrive
         delay(100);

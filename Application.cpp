@@ -57,9 +57,9 @@ void Lcd::Initialize(){
 void Lcd::Update(){
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print(data);  
+    //lcd.print(data);  
     lcd.setCursor(0, 1);
-    lcd.print(error);  
+    //lcd.print(error);  
   }
 
   void Buzzer::Initialize(){
@@ -69,7 +69,10 @@ void Lcd::Update(){
   }
 
   void Buzzer::ToggleBuz(){
-      if (IsOn){
+      if (isOn){
         digitalWrite(PinBuzzer,HIGH);
+      }
+      else{
+        digitalWrite(PinBuzzer,LOW);
       }
   }
