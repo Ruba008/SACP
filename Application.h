@@ -117,7 +117,7 @@ class Button{
 class Controller{
   public:
     Controller();
-    float verifyValue(array<float, 2> req, float value);
+    float verifyValue(array<float, 4> req, float value);
     void verifyUrgence();
     void Update();
   private:

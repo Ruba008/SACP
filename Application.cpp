@@ -122,8 +122,42 @@ Controller::Controller(){
   delay(1000);
 }
 
+float Controller::verifyValue(array<float, 4> zoneJ, float value){
+  float zoneBonMin = zoneJ[1];
+  float zoneBonMax = zoneJ[2];
+
+  float zoneJMin = zoneJ[0];
+  float zoneJMax = zoneJ[3];
+
+  if (value>=zoneBonMin && value<=zoneBonMax){
+    return 0;
+  }
+  
+  if (value>zoneJMin && value<zoneBonMin){
+    return zoneBonMin-value;
+  }
+
+  if (value>zoneBonMax && value<zoneJMax){
+    return value-zoneBonMax;
+  }
+
+  if (value<=zoneJMin){
+    return -zoneBonMin+value;
+  }
+
+  if (value>=zoneJMin){
+    return -value+zoneBonMax;
+  }
+  
+  return -1;
+}
+
 void Controller::Update(){
   tempHum.Update();
   lum.Update();
+}
+
+void Controller::verifyUrgence(){
+
 }
 
