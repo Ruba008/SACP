@@ -104,3 +104,20 @@ array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
   return {reqJauneMin, reqMin, reqMax, reqJauneMax};
 }
 
+Controller::Controller(){
+  Serial.begin(115200);
+  while(!Serial);
+  Serial.println("begin..."); 
+  
+  buzzer.Initialize();
+  tempHum.Initialize();
+  lum.Initialize();
+  
+  delay(1000);
+}
+
+void Controller::Update(){
+  tempHum.Update();
+  lum.Update();
+}
+
