@@ -1,26 +1,26 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include "SHT31.h"
+//#include "SHT31.h"
 #include <math.h>
 #include <string>
-#include "rgb_lcd.h"
+//#include "rgb_lcd.h"
 #include "Application.h"
 
 using namespace std;
 
-rgb_lcd lcd;
+/*rgb_lcd lcd;
 
 const int colorR = 255;
 const int colorG = 0;
 const int colorB = 0;
 
-SHT31 sht31 = SHT31();
+SHT31 sht31 = SHT31();*/
 
 Buzzer a;
 
-const int ledPin=6;                 //Connect the LED Grove module to Pin12, Digital 12
+/*const int ledPin=6;                 //Connect the LED Grove module to Pin12, Digital 12
 const int thresholdvalue=10;         //The threshold for which the LED should turn on. 
-float Rsensor; //Resistance of sensor in K
+float Rsensor; //Resistance of sensor in K*/
 
 /*class TempHum {
   float temp;
@@ -110,7 +110,7 @@ class Lcd{
 
 
 void setup() {
-  Serial.begin(9600);
+  /*Serial.begin(9600);
   while(!Serial);
   Serial.println("begin...");  
   sht31.begin();
@@ -118,7 +118,7 @@ void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
     
-  lcd.setRGB(colorR, colorG, colorB);
+  lcd.setRGB(colorR, colorG, colorB);*/
   a.Initialize();
     
   // Print a message to the LCD.
@@ -128,7 +128,7 @@ void setup() {
 }
 
 void loop() {
-  float temp = sht31.getTemperature();
+  /*float temp = sht31.getTemperature();
   float hum = sht31.getHumidity();
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -143,24 +143,14 @@ void loop() {
   int sensorValue = analogRead(0); 
   Rsensor=(float)(1024-sensorValue)*10/sensorValue;
 
-  float lux=exp(float(sensorValue)/75.0);
+  float lux=exp(float(sensorValue)/75.0);*/
   a.ToggleBuz();
   //float lux=log(Rsensor);
-  Serial.println("the analog read data is ");
+  /*Serial.println("the analog read data is ");
   Serial.println(lux);
   Serial.println("the sensor resistance is ");
-  Serial.println(Rsensor,DEC);//show the light intensity on the serial monitor;
+  Serial.println(Rsensor,DEC);//show the light intensity on the serial monitor;*/
   delay(5000);
-  /*if (Serial.available()) {
-        // wait a bit for the entire message to arrive
-        delay(100);
-        // clear the screen
-        lcd.clear();
-        // read all the available characters
-        while (Serial.available() > 0) {
-            // display each character to the LCD
-            lcd.write(Serial.read());
-        }
-    }*/
+    
 
 }
