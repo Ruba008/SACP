@@ -80,6 +80,11 @@ void Buzzer::ToggleBuz(){
     }
 }
 
+void Buzzer::BuzOff(){
+  digitalWrite(PinBuzzer,LOW);
+  isOn=0;
+}
+
 array<float, 4> Plant::zoneJauneHum(array<float, 2> req, float zone) {
   float reqMin = req[0];
   float reqMax = req[1];
