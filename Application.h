@@ -9,10 +9,10 @@
 #include <array>
 #include <Arduino.h>
 #include <Wire.h>
-#include "SHT31.h"
+//#include "SHT31.h"
 #include <math.h>
 #include <string>
-#include "rgb_lcd.h"
+//#include "rgb_lcd.h"
 
 using namespace std;
 /**
