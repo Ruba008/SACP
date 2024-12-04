@@ -68,9 +68,11 @@ class Led{
 };
 class Buzzer{
   public:
-    bool toggleBuz(bool isOn);
+    void Initialize();
+    void toggleBuz();
   private:
     bool isOn;
+    int PinBuzzer;
 };
 class Lcd{
   public:
@@ -96,6 +98,7 @@ class Controller{
     void initialize();
     float verifyValue(array<float, 2> req, float value);
     void verifyUrgence();
+    void Update();
   private:
     Led led;
     Lcd lcd;
