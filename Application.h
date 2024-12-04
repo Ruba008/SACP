@@ -25,9 +25,9 @@ class plantBase{
     virtual array<float, 4> zoneJauneHum(array<float, 2> req, float zone) = 0;
     virtual array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) = 0;
   protected:
-    const float JauneHum = 0.2;
-    const float JauneLum = 0.2;
-    const float JauneTemp = 0.2;
+    float JauneHum = 0.2;
+    float JauneLum = 0.2;
+    float JauneTemp = 0.2;
 };
 class Plant: protected plantBase{
   public :
