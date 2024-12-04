@@ -10,10 +10,9 @@ using namespace std;
 
 rgb_lcd lcd;
 
-//SHT31 sht31 = SHT31();
+SHT31 sht31 = SHT31();
 
 void TempHum::Initialize(){
-    sht31 = SHT31();
     sht31.begin();
     temp=sht31.getTemperature();
     hum=sht31.getHumidity();
@@ -34,7 +33,7 @@ void TempHum::Update(){
 
 
 void Luminosity::Initialize(){
-    aread = analogRead(A0); 
+    aread = analogRead(0); 
     Rsensor=(float)(1024-aread)*10/aread;
     lum=exp(float(aread)/75.0);
 }
@@ -44,7 +43,7 @@ float Luminosity::readLum(){
 }
 
 void Luminosity::Update(){
-    aread = analogRead(A0); 
+    aread = analogRead(0); 
     Rsensor=(float)(1024-aread)*10/aread;
     lum=exp(float(aread)/75.0);
 }
@@ -56,26 +55,49 @@ void Lcd::Initialize(){
 }
 
 void Lcd::Update(){
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    //lcd.print(data);  
-    lcd.setCursor(0, 1);
-    //lcd.print(error);  
-  }
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  //lcd.print(data);  
+  lcd.setCursor(0, 1);
+  //lcd.print(error);  
+}
 
-  void Buzzer::Initialize(){
-    isOn=0;
-    PinBuzzer=D8;
-    pinMode(PinBuzzer,OUTPUT);
-  }
+void Buzzer::Initialize(){
+  isOn=0;
+  PinBuzzer=3;
+  pinMode(PinBuzzer,OUTPUT);
+}
 
-  void Buzzer::ToggleBuz(){
-      if (isOn==0){
-        digitalWrite(PinBuzzer,HIGH);
-        isOn=1;
-      }
-      else{
-        digitalWrite(PinBuzzer,LOW);
-        isOn=0;
-      }
-  }
+void Buzzer::ToggleBuz(){
+    if (isOn){
+      digitalWrite(PinBuzzer,HIGH);
+    }
+    else{
+      digitalWrite(PinBuzzer,LOW);
+    }
+}
+
+array<float, 4> Plant::zoneJauneHum(array<float, 2> req, float zone) {
+  float reqMin = req[0];
+  float reqMax = req[1];
+  float reqJauneMin = reqMin - reqMin*zone;
+  float reqJauneMax = reqMax + reqMax*zone;
+  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+}
+
+array<float, 4> Plant::zoneJauneLum(array<float, 2> req, float zone){
+  float reqMin = req[0];
+  float reqMax = req[1];
+  float reqJauneMin = reqMin - reqMin*zone;
+  float reqJauneMax = reqMax + reqMax*zone;
+  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+}
+
+array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
+  float reqMin = req[0];
+  float reqMax = req[1];
+  float reqJauneMin = reqMin - reqMin*zone;
+  float reqJauneMax = reqMax + reqMax*zone;
+  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+}
+
