@@ -38,7 +38,7 @@ class plantBase{
 class Plant: public plantBase{
   public :
     Plant();
-    Plant(float** zones);
+    Plant(float zones[3][4]);
     array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneHum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override;
@@ -110,7 +110,7 @@ class Lcd{
 };
 class Button{
   public:
-    Button(); 
+    //Button(); 
     void stopBuzzer();
   private:
     bool isOn;

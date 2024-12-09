@@ -11,13 +11,29 @@ using namespace std;
 rgb_lcd lcd;
 
 //SHT31 sht31 = SHT31();
-
-Plant::Plant(float** zones){
+Plant::Plant(){
+  for (int i=0; i<4; i++){
+    zoneJTemp[i] = -1;
+    zoneJHum[i] = -1;
+    zoneJLum[i] = -1; 
+  }
+}
+Plant::Plant(float zones[3][4]){
   for (int i=0; i<4; i++){
     zoneJTemp[i] = zones[0][i];
     zoneJHum[i] = zones[1][i];
     zoneJLum[i] = zones[2][i]; 
   }
+}
+
+Plant & Plant::operator= (const Plant & plantEquals){
+  
+  for (int i=0; i<4; i++){
+    (*this).zoneJTemp[i] = plantEquals.zoneJTemp[i];
+    (*this).zoneJHum[i] = plantEquals.zoneJHum[i];
+    (*this).zoneJLum[i] = plantEquals.zoneJLum[i]; 
+  }
+  return (*this);
 }
 
 void TempHum::Initialize(){
