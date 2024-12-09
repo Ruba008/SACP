@@ -35,12 +35,14 @@ class plantBase{
     float JauneLum = 0.2;
     float JauneTemp = 0.2;
 };
-class Plant: protected plantBase{
+class Plant: public plantBase{
   public :
     Plant();
+    Plant(float** zones);
     array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneHum(array<float, 2> req, float zone) override;
-    array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override; 
+    array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override;
+    Plant & operator = (const Plant & plantEquals);
   private:
     string specie;
     string color;
@@ -108,7 +110,7 @@ class Lcd{
 };
 class Button{
   public:
-    void Button(); 
+    Button(); 
     void stopBuzzer();
   private:
     bool isOn;
@@ -117,7 +119,7 @@ class Button{
 //Controller
 class Controller{
   public:
-    Controller();
+    Controller(Plant plantController);
     float verifyValue(array<float, 4> req, float value);
     void verifyUrgence();
     void Update();
@@ -127,6 +129,7 @@ class Controller{
     char Buffer[255];
     char Value[8];
     int Defile;
+    Plant plantC;
     Led led;
     Lcd lcd;
     Button button;
@@ -134,4 +137,11 @@ class Controller{
     TempHum tempHum;
     Luminosity lum;
 };
+/*class ErrorManagement{
+  private:
+  string message;
+  public:
+  ErrorManegement(string message);
+  string getMessage();
+};*/
 #endif

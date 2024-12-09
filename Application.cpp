@@ -12,6 +12,14 @@ rgb_lcd lcd;
 
 //SHT31 sht31 = SHT31();
 
+Plant::Plant(float** zones){
+  for (int i=0; i<4; i++){
+    zoneJTemp[i] = zones[0][i];
+    zoneJHum[i] = zones[1][i];
+    zoneJLum[i] = zones[2][i]; 
+  }
+}
+
 void TempHum::Initialize(){
     sht31 = SHT31();
     sht31.begin();
@@ -119,7 +127,9 @@ array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
   return {reqJauneMin, reqMin, reqMax, reqJauneMax};
 }
 
-Controller::Controller(){
+Controller::Controller(Plant plantController){
+  //bool errorFlag = false;
+  Controller::plantC = plantController;
   Defile=0;
   Serial.begin(115200);
   while(!Serial);
@@ -205,3 +215,10 @@ void Controller::verifyUrgence(){
 
 }
 
+/*string ErrorManagement::getMessage(){
+  return ErrorManagement::message;
+}
+
+ErrorManagement::ErrorManagement(string message){
+  ErrorManagement::message = message;
+}*/

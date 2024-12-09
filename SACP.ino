@@ -10,9 +10,14 @@ using namespace std;
 TempHum TempH;
 Luminosity Lum;*/
 
-Controller App;
 
 void setup() {
+  float Cacparam[3][4]={{17.8, 23.4, 27.9, 32.8}, {20.3, 32.1, 74.3, 98.3}, {12, 543, 1000000, 1200000}};
+  /*Cacparam[0] = {17.8, 23.4, 27.9, 32.8};
+  Cacparam[1] = {20.3, 32.1, 74.3, 98.3};
+  Cacparam[2] = {12, 543, 1000000, 1200000};*/
+  Plant cactus(Cacparam);
+  Controller App(cactus);
   /*Serial.begin(115200);
   while(!Serial);
   Serial.println("begin..."); 
