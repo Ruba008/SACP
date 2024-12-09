@@ -108,7 +108,7 @@ class Lcd{
 };
 class Button{
   public:
-    void Initialize(); 
+    void Button(); 
     void stopBuzzer();
   private:
     bool isOn;
@@ -122,10 +122,11 @@ class Controller{
     void verifyUrgence();
     void Update();
   private:
-    char MsgData[16];
-    char MsError[16];
+    char MsgData[3][16];
+    char MsError[3][16];
     char Buffer[255];
-    char Value[5];
+    char Value[8];
+    int Defile;
     Led led;
     Lcd lcd;
     Button button;

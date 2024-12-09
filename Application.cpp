@@ -120,9 +120,7 @@ array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
 }
 
 Controller::Controller(){
-  /*MsgData=(char *) malloc(16);
-  MsError=(char *) malloc(16);
-  Value=(char *) malloc(5);*/
+  Defile=0;
   Serial.begin(115200);
   while(!Serial);
   Serial.println("begin..."); 
@@ -168,25 +166,39 @@ void Controller::Update(){
   /*Serial.print("Temp = "); 
   Serial.print(tempHum.readTemp());
   Serial.println(" C"); */
-  strcpy(MsgData,"Temp=");
-  sprintf(Buffer,"%f",tempHum.readTemp());
+  Defile++;
+  if(Defile>2){Defile=0;}
+  strcpy(MsgData[0],"Temp=");
+  sprintf(Buffer,"%.2f",tempHum.readTemp());
   for(int i=0;i<5;i++){
     Value[i]=Buffer[i];
   } 
-  strcat(MsgData,Value);
-  strcat(MsgData," C");
-  lcd.SetData(MsgData);
-  Serial.print("Hum = "); 
-  Serial.print(tempHum.readHum());
-  Serial.println("%"); 
+  strcat(MsgData[0],Value);
+  strcat(MsgData[0],"C");
 
-  Serial.print("Lum = "); 
+  strcpy(MsgData[1],"Hum=");
+  sprintf(Buffer,"%.2f",tempHum.readHum());
+  for(int i=0;i<5;i++){
+    Value[i]=Buffer[i];
+  } 
+  strcat(MsgData[1],Value);
+  strcat(MsgData[1],"%"); 
+
+  strcpy(MsgData[2],"Lum="); 
   Serial.println(lum.readLum());
+  sprintf(Buffer,"%.2f",lum.readLum());
+  for(int i=0;i<8;i++){
+    Value[i]=Buffer[i];
+  } 
+  strcat(MsgData[2],Value);
+  strcat(MsgData[2],"lux");
+
+  lcd.SetData(MsgData[Defile]);
 
   lcd.Update();
   tempHum.Update();
   lum.Update();
-  delay(1000);
+  delay(3000);
 }
 
 void Controller::verifyUrgence(){
