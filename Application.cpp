@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include "SHT31.h"
 #include <math.h>
-#include <string>
+#include <string.h>
 #include "rgb_lcd.h"
 #include "Application.h"
 
@@ -53,14 +53,23 @@ void Lcd::Initialize(){
     isOn=1;
     lcd.begin(16, 2);
     lcd.setRGB(colorR, colorG, colorB);
+    strcpy(data,"HELLO WORLD");
+    strcpy(error,"SACP");
+}
+void Lcd::SetData(char *datae){
+    strcpy(data,datae);
+}
+
+void Lcd::SetError(char *errore){
+  strcpy(error,errore);
 }
 
 void Lcd::Update(){
   lcd.clear();
   lcd.setCursor(0, 0);
-  //lcd.print(data);  
+  lcd.print(data);  
   lcd.setCursor(0, 1);
-  //lcd.print(error);  
+  lcd.print(error);  
 }
 
 void Buzzer::Initialize(){
@@ -111,10 +120,13 @@ array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
 }
 
 Controller::Controller(){
+  /*MsgData=(char *) malloc(16);
+  MsError=(char *) malloc(16);
+  Value=(char *) malloc(5);*/
   Serial.begin(115200);
   while(!Serial);
   Serial.println("begin..."); 
-  
+  lcd.Initialize();
   buzzer.Initialize();
   tempHum.Initialize();
   lum.Initialize();
@@ -153,8 +165,28 @@ float Controller::verifyValue(array<float, 4> zoneJ, float value){
 }
 
 void Controller::Update(){
+  /*Serial.print("Temp = "); 
+  Serial.print(tempHum.readTemp());
+  Serial.println(" C"); */
+  strcpy(MsgData,"Temp=");
+  sprintf(Buffer,"%f",tempHum.readTemp());
+  for(int i=0;i<5;i++){
+    Value[i]=Buffer[i];
+  } 
+  strcat(MsgData,Value);
+  strcat(MsgData," C");
+  lcd.SetData(MsgData);
+  Serial.print("Hum = "); 
+  Serial.print(tempHum.readHum());
+  Serial.println("%"); 
+
+  Serial.print("Lum = "); 
+  Serial.println(lum.readLum());
+
+  lcd.Update();
   tempHum.Update();
   lum.Update();
+  delay(1000);
 }
 
 void Controller::verifyUrgence(){

@@ -6,12 +6,14 @@
 
 using namespace std;
 
-Buzzer buz;
+/*Buzzer buz;
 TempHum TempH;
-Luminosity Lum;
+Luminosity Lum;*/
+
+Controller App;
 
 void setup() {
-  Serial.begin(115200);
+  /*Serial.begin(115200);
   while(!Serial);
   Serial.println("begin..."); 
 
@@ -19,11 +21,11 @@ void setup() {
   buz.Initialize();
   Lum.Initialize();
 
-  delay(1000);
+  delay(1000);*/
 }
 
 void loop() {
-  Serial.print("Temp = "); 
+  /*Serial.print("Temp = "); 
   Serial.print(TempH.readTemp());
   Serial.println(" C"); 
 
@@ -36,6 +38,9 @@ void loop() {
 
   buz.ToggleBuz();
   TempH.Update();
+  Lum.Update();*/
+
+  App.Update();
   
   delay(1000);
     

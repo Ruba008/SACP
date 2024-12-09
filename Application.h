@@ -95,15 +95,16 @@ class Buzzer{
 class Lcd{
   public:
     void Initialize(); 
-    bool writeData(bool isOn);
+    void SetData(char * datae);
+    void SetError(char * errore);
     void Update();
   private:
     bool isOn=0;
     int colorR = 255;
     int colorG = 0;
     int colorB = 0;
-    string data;
-    string error;
+    char data[16];
+    char error[16];
 };
 class Button{
   public:
@@ -121,6 +122,10 @@ class Controller{
     void verifyUrgence();
     void Update();
   private:
+    char MsgData[16];
+    char MsError[16];
+    char Buffer[255];
+    char Value[5];
     Led led;
     Lcd lcd;
     Button button;
