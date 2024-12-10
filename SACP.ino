@@ -28,7 +28,7 @@ void setup() {
 void loop() {
   App.Update();
   
-  delay(1000);//se delay conditionne le temps d'affichage avant le défilement des valeurs sur le LCD
+  delay(2000);//se delay conditionne le temps d'affichage avant le défilement des valeurs sur le LCD
   //mais aussi le temps qu'on doit maintenir le bouton pour enregistrer la fin du buzzer
     
 

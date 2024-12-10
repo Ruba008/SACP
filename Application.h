@@ -119,6 +119,7 @@ class Lcd{
     void SetData(char * datae);//mise des chaines de characteres du haut
     void SetError(char * errore);//celle du bas
     void Update();//on rafrechis le lcd
+    void misRGB(int R, int G, int B);
   private:
     bool isOn=0;
     int colorR = 255;//couleur par défaut rouge
