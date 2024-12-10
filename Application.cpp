@@ -81,11 +81,11 @@ Plant & Plant::operator= (const Plant & plantEquals){
   return (*this);
 }
 
-void TempHum::Initialize(){
-    sht31 = SHT31();
-    sht31.begin();
-    temp=sht31.getTemperature();
-    hum=sht31.getHumidity();
+TempHum::TempHum(){
+  sht31 = SHT31();
+  sht31.begin();
+  temp=sht31.getTemperature();
+  hum=sht31.getHumidity();
 }
 
 float TempHum::readTemp(){
@@ -101,11 +101,10 @@ void TempHum::Update(){
     hum=sht31.getHumidity();
 }
 
-
-void Luminosity::Initialize(){
-    aread = analogRead(A0); 
-    Rsensor=(float)(1024-aread)*10/aread;
-    lum=exp(float(aread)/75.0);
+Luminosity::Luminosity(){
+  aread = analogRead(A0); 
+  Rsensor=(float)(1024-aread)*10/aread;
+  lum=exp(float(aread)/75.0);
 }
 
 float Luminosity::readLum(){
@@ -118,13 +117,15 @@ void Luminosity::Update(){
     lum=exp(float(aread)/75.0);
 }
 
-void Lcd::Initialize(){
-    isOn=1;
-    lcd.begin(16, 2);
-    lcd.setRGB(colorR, colorG, colorB);
-    strcpy(data,"HELLO WORLD");
-    strcpy(error,"SACP");
+Lcd::Lcd(){
+  isOn=1;
+  lcd.begin(16, 2);
+  lcd.setRGB(colorR, colorG, colorB);
+  strcpy(data,"HELLO WORLD");
+  strcpy(error,"SACP");
+
 }
+
 void Lcd::SetData(char *datae){
     strcpy(data,datae);
 }
@@ -211,9 +212,6 @@ Controller::Controller(Plant plantController){
   while(!Serial);
   Serial.println("begin...");
   Serial.println(plantC.RzoneJauneTemp()[0]) ;
-  lcd.Initialize();
-  tempHum.Initialize();
-  lum.Initialize();
   
   delay(1000);
 }
