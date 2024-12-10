@@ -42,11 +42,15 @@ class Plant: public plantBase{
     array<float, 4> zoneJauneLum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneHum(array<float, 2> req, float zone) override;
     array<float, 4> zoneJauneTemp(array<float, 2> req, float zone) override;
+    array<float, 4> RzoneJauneLum();
+    array<float, 4> RzoneJauneHum();
+    array<float, 4> RzoneJauneTemp();
     Plant & operator = (const Plant & plantEquals);
   private:
     string specie;
     string color;
     bool isDisead;
+    array<float, 4> Res;
     array<float, 2> reqHumidity;
     array<float, 2> reqLuminosity;
     array<float, 2> reqTemperature;
@@ -81,13 +85,16 @@ class Luminosity{
 // Acteurs
 class Led{
   public:
-    bool toggleLed(bool isOn);
+    Led();
+    void ToggleLed();
+    void LedOff();
   private:
     bool isOn;
+    int PinLed;
 };
 class Buzzer{
   public:
-    void Initialize();
+    Buzzer();
     void ToggleBuz();
     void BuzOff();
   private:
@@ -110,10 +117,11 @@ class Lcd{
 };
 class Button{
   public:
-    //Button(); 
-    void stopBuzzer();
+    Button(); 
+    int Pressed();
   private:
-    bool isOn;
+    int isOn;
+    int PinButton;
 };
 
 //Controller
@@ -121,14 +129,18 @@ class Controller{
   public:
     Controller(Plant plantController);
     float verifyValue(array<float, 4> req, float value);
-    void verifyUrgence();
+    void verifyUrgence(int num);
     void Update();
   private:
     char MsgData[3][16];
     char MsError[3][16];
     char Buffer[255];
+    float Alarm;
     char Value[8];
     int Defile;
+    bool AlarmJaune[3];
+    bool AlarmRouge[3];
+    bool Arme[3];
     Plant plantC;
     Led led;
     Lcd lcd;

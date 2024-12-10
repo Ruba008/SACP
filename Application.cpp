@@ -26,6 +26,51 @@ Plant::Plant(float zones[3][4]){
   }
 }
 
+array<float, 4> Plant::zoneJauneHum(array<float, 2> req, float zone) {
+  float reqMin = req[0];
+  float reqMax = req[1];
+  float reqJauneMin = reqMin - reqMin*zone;
+  float reqJauneMax = reqMax + reqMax*zone;
+  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+}
+
+array<float, 4> Plant::zoneJauneLum(array<float, 2> req, float zone){
+  float reqMin = req[0];
+  float reqMax = req[1];
+  float reqJauneMin = reqMin - reqMin*zone;
+  float reqJauneMax = reqMax + reqMax*zone;
+  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+}
+
+array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
+  float reqMin = req[0];
+  float reqMax = req[1];
+  float reqJauneMin = reqMin - reqMin*zone;
+  float reqJauneMax = reqMax + reqMax*zone;
+  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+}
+
+array<float, 4> Plant::RzoneJauneHum() {
+  for (int i=0; i<4; i++){
+    Res[i] = zoneJHum[i]; 
+  }
+  return Res;
+}
+
+array<float, 4> Plant::RzoneJauneLum(){
+  for (int i=0; i<4; i++){
+    Res[i] = zoneJLum[i]; 
+  }
+  return Res;
+}
+
+array<float, 4> Plant::RzoneJauneTemp(){
+  for (int i=0; i<4; i++){
+    Res[i] = zoneJTemp[i];
+  }
+  return Res;
+}
+
 Plant & Plant::operator= (const Plant & plantEquals){
   
   for (int i=0; i<4; i++){
@@ -96,7 +141,7 @@ void Lcd::Update(){
   lcd.print(error);  
 }
 
-void Buzzer::Initialize(){
+Buzzer::Buzzer(){
   isOn=0;
   PinBuzzer=D8;
   pinMode(PinBuzzer,OUTPUT);
@@ -119,39 +164,54 @@ void Buzzer::BuzOff(){
   isOn=0;
 }
 
-array<float, 4> Plant::zoneJauneHum(array<float, 2> req, float zone) {
-  float reqMin = req[0];
-  float reqMax = req[1];
-  float reqJauneMin = reqMin - reqMin*zone;
-  float reqJauneMax = reqMax + reqMax*zone;
-  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+Led::Led(){
+  isOn=0;
+  PinLed=D5;
+  pinMode(PinLed,OUTPUT);
 }
 
-array<float, 4> Plant::zoneJauneLum(array<float, 2> req, float zone){
-  float reqMin = req[0];
-  float reqMax = req[1];
-  float reqJauneMin = reqMin - reqMin*zone;
-  float reqJauneMax = reqMax + reqMax*zone;
-  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+
+void Led::ToggleLed(){
+    if (isOn==0){
+      digitalWrite(PinLed,HIGH);
+      isOn=1;
+    }
+    else{
+      digitalWrite(PinLed,LOW);
+      isOn=0;
+    }
 }
 
-array<float, 4> Plant::zoneJauneTemp(array<float, 2> req, float zone){
-  float reqMin = req[0];
-  float reqMax = req[1];
-  float reqJauneMin = reqMin - reqMin*zone;
-  float reqJauneMax = reqMax + reqMax*zone;
-  return {reqJauneMin, reqMin, reqMax, reqJauneMax};
+void Led::LedOff(){
+  digitalWrite(PinLed,LOW);
+  isOn=0;
+}
+
+Button::Button(){
+  isOn=0;
+  PinButton=D6;
+  pinMode(PinButton,INPUT);
+}
+
+int Button::Pressed(){
+  isOn=digitalRead(PinButton);
+  return isOn;
 }
 
 Controller::Controller(Plant plantController){
   //bool errorFlag = false;
-  Controller::plantC = plantController;
+  plantC = plantController;
   Defile=0;
+  for(int i=0;i<3;i++){
+    AlarmJaune[i]=false;
+    AlarmRouge[i]=false;
+    Arme[i]=true;
+  }
   Serial.begin(115200);
   while(!Serial);
-  Serial.println("begin..."); 
+  Serial.println("begin...");
+  Serial.println(plantC.RzoneJauneTemp()[0]) ;
   lcd.Initialize();
-  buzzer.Initialize();
   tempHum.Initialize();
   lum.Initialize();
   
@@ -188,10 +248,39 @@ float Controller::verifyValue(array<float, 4> zoneJ, float value){
   return -1;
 }
 
+void Controller::verifyUrgence(int num){
+
+  if (num==0){
+    Alarm=verifyValue(plantC.RzoneJauneTemp(),tempHum.readTemp());
+    strcpy(MsError[num],"Temp");
+  }
+  else if(num==1){
+    Alarm=verifyValue(plantC.RzoneJauneHum(),tempHum.readHum());
+    strcpy(MsError[num],"Hum");
+  }
+  else {
+    Alarm=verifyValue(plantC.RzoneJauneLum(),lum.readLum());
+    strcpy(MsError[num],"Lum");
+  }
+
+  if (Alarm==0){
+    AlarmJaune[num]=false;
+    AlarmRouge[num]=false;
+    strcat(MsError[num]," Bon");
+  }
+  else if(Alarm>0){
+    AlarmJaune[num]=true;
+    AlarmRouge[num]=false;
+    strcat(MsError[num]," Jaune");
+  }
+  else {
+    AlarmRouge[num]=true;
+    AlarmJaune[num]=false;
+    strcat(MsError[num]," Rouge");
+  }
+}
+
 void Controller::Update(){
-  /*Serial.print("Temp = "); 
-  Serial.print(tempHum.readTemp());
-  Serial.println(" C"); */
   Defile++;
   if(Defile>2){Defile=0;}
   strcpy(MsgData[0],"Temp=");
@@ -211,7 +300,6 @@ void Controller::Update(){
   strcat(MsgData[1],"%"); 
 
   strcpy(MsgData[2],"Lum="); 
-  Serial.println(lum.readLum());
   sprintf(Buffer,"%.2f",lum.readLum());
   for(int i=0;i<8;i++){
     Value[i]=Buffer[i];
@@ -219,22 +307,40 @@ void Controller::Update(){
   strcat(MsgData[2],Value);
   strcat(MsgData[2],"lux");
 
+  verifyUrgence(Defile);
+
+  bool AlJaune=AlarmJaune[0]||AlarmJaune[1]||AlarmJaune[2];
+
+  if(AlJaune){
+    led.ToggleLed();
+  }
+  else{
+    led.LedOff();
+  }
+
+  if(button.Pressed()==HIGH){
+    for(int j=0;j<3;j++){
+      if(AlarmRouge[j]){
+        Arme[j]=false;
+      }
+    }
+  }
+
+  bool AlRouge=(Arme[0]&&AlarmRouge[0])||(Arme[1]&&AlarmRouge[1])||(Arme[2]&&AlarmRouge[2]);
+
+  if(AlRouge){
+      buzzer.ToggleBuz();
+  }
+  else {
+    buzzer.BuzOff();
+  }
+
   lcd.SetData(MsgData[Defile]);
+  lcd.SetError(MsError[Defile]);
 
   lcd.Update();
   tempHum.Update();
   lum.Update();
-  delay(3000);
+  //delay(1000);
 }
 
-void Controller::verifyUrgence(){
-
-}
-
-/*string ErrorManagement::getMessage(){
-  return ErrorManagement::message;
-}
-
-ErrorManagement::ErrorManagement(string message){
-  ErrorManagement::message = message;
-}*/
