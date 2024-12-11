@@ -32,3 +32,11 @@ si vous avez respecter le branchement vous pouvez téléverser ce code dans votr
 ##Plantes supportées
 
 Cette version ne supporte que les cactus
+
+##Utilisation
+
+Un bouton physique permet à l’utilisateur de désactiver le buzzer en cas d’alerte. 
+Cela rend le système moins intrusif tout en maintenant les indicateurs visuels.
+
+L’utilisateur peut consulter les valeurs environnementales actuelles via le défilement
+automatique sur l’écran LCD.
