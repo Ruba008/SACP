@@ -20,7 +20,7 @@ système utilisé dans le secteur domestique ou de production (serres).
   7. LCD RGB backlight;                       i2C2
   8. Grove-Light Sensor v1.2                  A0
 
-  ##Compilation
+  ## Compilation
 
 Pour utiliser ce code assurer vous d'avoir la bibliothèque de L'esp8266
 Sinon télécharger la sur Arduino IDE
@@ -29,11 +29,11 @@ Dans l'arduino IDE aller dans sketch->include Library-> Add .zip library
 Selectionner les deux fichier zip ci-joint (la bibliothèque pour SHT31 et pour le lcd)
 si vous avez respecter le branchement vous pouvez téléverser ce code dans votre contrôleur
 
-##Plantes supportées
+## Plantes supportées
 
 Cette version ne supporte que les cactus
 
-##Utilisation
+## Utilisation
 
 Un bouton physique permet à l’utilisateur de désactiver le buzzer en cas d’alerte. 
 Cela rend le système moins intrusif tout en maintenant les indicateurs visuels.
